@@ -1,62 +1,48 @@
 import PouchDB from 'pouchdb'
 import _ from 'lodash'
 
-const db = new PouchDB('vuedb')
-const remotedb = new PouchDB('http://localhost:5984/vuedb')
+const db = new PouchDB('b_results6')
+const remotedb = new PouchDB('https://bestgametowatch.cloudant.com/b_results')
 const store = {}
 
 PouchDB.debug.disable()
 
-store.create = (data) => {
-  return db.post(data)
+store.init = () => {
+  //db.replicate.from(remotedb, {live: false}).on('change', function (change) {
+  //  console.log('change', change)
+  //}).on('error', function (err) {
+  //  console.log('err-replicate', err)
+  //}).then(
+  //    console.log('done')
+  //).catch(function (err) {
+  //  console.log('replicate error', err);
+  //});
 }
 
 store.find = () => {
   return db.allDocs({include_docs: true})
 }
 
-store.findPosts = () => {
-  function map (doc, emit) {
-    if (doc.type === 'post') {
-      emit(doc.createdAt)
-    }
-  }
-  return db.query(map, {include_docs: true}).then(posts =>
-    _.map(posts.rows, (post) => post.doc)
-  )
+store.find2 = (obj, prop) => {
+  console.log('find2', remotedb)
+
+  //db.allDocs({
+  remotedb.get('20171017-boston-celtics-at-cleveland-cavaliers', {
+    include_docs: true
+  }).then(function (result) {
+    console.log('find games', result)
+    //result.rows.forEach(function(doc) {
+    //  console.log('doc', doc.value)
+    //})
+    obj[prop] = [result]
+  }).catch(function (err) {
+    console.log('find games error', err);
+  });
 }
+
 
 store.findPostById = (id) => {
   return db.get(id)
-}
-
-store.findCommentsByPostId = (postId) => {
-  function map (doc, emit) {
-    if (doc.postId === postId) {
-      emit(doc.createdAt)
-    }
-  }
-  return db.query(map, {include_docs: true}).then(comments =>
-    _.map(comments.rows, (comment) => comment.doc)
-  )
-}
-
-store.reloadPosts = (obj, prop) => {
-  store.findPosts().then(posts => {
-    obj[prop] = posts
-  })
-  if (remotedb) {
-    db.sync(remotedb)
-  }
-}
-
-store.reloadComments = (obj, prop, postId) => {
-  store.findCommentsByPostId(postId).then(comments => {
-    obj[prop] = comments
-  })
-  if (remotedb) {
-    db.sync(remotedb)
-  }
 }
 
 export default store
