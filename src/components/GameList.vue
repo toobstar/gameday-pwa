@@ -37,7 +37,7 @@ export default {
 	},
 	computed: {
 		description: function() {
-			return "You have " + (this.games ? this.games.length : 'x') + " team members";
+			return "There are " + (this.games ? this.games.length : 'x') + " completed games this season";
 		}
 	}
 }
