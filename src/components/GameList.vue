@@ -1,7 +1,50 @@
 <template>
 	<div class="gameList">
 		<page-title title="Games" :subtitle="description"></page-title>
-		<ul>
+
+
+      <div class="eve"  v-for="event in games" :key="event.id">
+        <div class="title">
+          <span>{{event.home_team_id}}</span>
+          <img src="../assets/logos/ATL.gif" alt="" style="max-height: 40px"/>
+          &#64; <br/>
+          <span >{{event.away_team_id}}</span>
+          <img src="../assets/logos/CHI.gif" alt="" style="max-height: 40px"/>
+        </div>
+        <div class="summary">
+          Rating {{event.pointsBasedRating}}
+        </div>
+        <div class="note" style="float: right">
+          <span>Game Score</span>
+          <span>
+              {{event.finalScore}}
+          </span>
+        </div>
+        <div class="type" style="float: right">
+          {{event.event_start_date_time}}
+        </div>
+        <!--<div class="note" v-if="event.aussies">-->
+          <!--<span v-if="event.showOzDetail != true">-->
+              <!--<img src="../assets/aus.png" title="Show Aussie player details" alt="Show Aussie player details"/>-->
+          <!--</span>-->
+          <!--<span style="padding:0 10px 0 10px;">-->
+                <!--<div v-for="player in event.aussies" :key="player.id">-->
+                    <!--<br/>-->
+                    <!--{{player.name}}: {{player.points}} points-->
+                    <!--<span v-if="player.assists > 0">/ {{player.assists}} assists</span>-->
+                    <!--<span v-if="player.turnovers > 0">/ {{player.turnovers}} turnovers</span>-->
+                    <!--<span v-if="player.steals > 0">/ {{player.steals}} steals</span>-->
+                    <!--<span v-if="player.blocks > 0">/ {{player.blocks}} blocks</span>-->
+                    <!--in {{player.minutes}}mins.-->
+                    <!--Shooting at {{player.field_goal_percentage}}%-->
+                    <!--<span v-if="player.three_point_percentage > 0">({{player.three_point_percentage}}% from 3)</span>.-->
+                    <!--<br/>-->
+                <!--</div>-->
+            <!--</span>-->
+        <!--</div>-->
+      </div>
+
+    <ul>
 			<li v-for="game in games" :key="game.id">
 				<p>
 					<h5>{{ game.id }}</h5>
