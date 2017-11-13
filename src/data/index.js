@@ -1,7 +1,7 @@
 import PouchDB from 'pouchdb'
 import _ from 'lodash'
 
-const db = new PouchDB('b_results7')
+const db = new PouchDB('b_processed')
 const remotedb = new PouchDB('https://bestgametowatch.cloudant.com/b_processed')
 const store = {}
 
@@ -19,13 +19,8 @@ store.init = () => {
   });
 }
 
-store.find = () => {
-  return db.allDocs({include_docs: true})
-}
-
-store.find2 = (obj, prop) => {
-  console.log('find2', remotedb)
-
+store.findAll = (obj, prop) => {
+  console.log('findAll', remotedb)
   db.allDocs({
     include_docs: true
   }).then(function (result) {

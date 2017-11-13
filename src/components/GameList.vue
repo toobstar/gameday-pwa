@@ -31,9 +31,8 @@ export default {
 		}
 	},
 	created () {
-		console.log('START')
 		store.init()
-		store.find2(this, 'games')
+		store.findAll(this, 'games')
 	},
 	computed: {
 		description: function() {
