@@ -3,13 +3,16 @@
 		<page-title title="Games" :subtitle="description"></page-title>
 		<ul>
 			<li v-for="game in games" :key="game.id">
-				<router-link :to="{name: 'game_edit', params: {id: game.id}}">
 				<p>
-					<h5>{{ game.firstname }} {{ game.lastname }}</h5>
-					    {{ game.phone }}<br/>
-					    {{ game.email }}
+					<h5>{{ game.id }}</h5>
+					pointsTotalDiff {{ game.pointsTotalDiff }}
+					pointsFinalDiff {{ game.pointsFinalDiff }}
+					leadChanges {{ game.leadChanges }}
+					pointsBasedScore {{ game.pointsBasedScore }}
+					pointsBasedRating {{ game.pointsBasedRating }}
+					aussies {{ game.aussies }}
+					finalScore {{ game.finalScore }}
 				</p>
-				</router-link>
 			</li>
 		</ul>
 	</div>
