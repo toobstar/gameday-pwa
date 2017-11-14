@@ -1,4 +1,5 @@
 import PouchDB from 'pouchdb'
+import moment from 'moment'
 import _ from 'lodash'
 
 const db = new PouchDB('processed')
@@ -27,7 +28,24 @@ store.findAll = (obj, prop) => {
     include_docs: true
   }).then(function (result) {
     console.log('find games', result.rows)
-    obj[prop] =  result.rows.map(function (game) { return game.doc })
+
+    let gameArray = result.rows.map(function (game) { return game.doc })
+
+    gameArray.sort(function(a, b){ // most recent first
+      if(a.event_start_date_time < b.event_start_date_time) return 1;
+      if(a.event_start_date_time > b.event_start_date_time) return -1;
+      return 0;
+    })
+
+    gameArray.forEach(function(game) {
+      game.showOzDetail = false
+      game.date = moment(game.event_start_date_time).format("MMM Do")
+      if (!game.aussies || game.aussies.length == 0) {
+        game.aussies = undefined
+      }
+    })
+
+    obj[prop] = gameArray
     //obj[prop] = result.rows
   }).catch(function (err) {
     console.log('find games error', err);

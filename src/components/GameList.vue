@@ -26,27 +26,25 @@
           </span>
         </div>
         <div class="type" style="float: right">
-          {{game.event_start_date_time}}
+          {{game.date}}
         </div>
         <div class="note" v-if="game.aussies">
-          <span v-on:click="toggleAussies(game)">
+          <span v-on:click="toggleAussies(game.id)">
               <img src="../assets/aus.png" title="Show Aussie player details" alt="Show Aussie player details"/>
-			  xx {{game.showOzDetail}}
           </span>
           <span style="padding:0 10px 0 10px;" v-if="game.showOzDetail">
-			  yy
-                <div v-for="player in game.aussies" :key="player.id">
-                    <br/>
-                    {{player.name}}: {{player.points}} points
-                    <span v-if="player.assists > 0">/ {{player.assists}} assists</span>
-                    <span v-if="player.turnovers > 0">/ {{player.turnovers}} turnovers</span>
-                    <span v-if="player.steals > 0">/ {{player.steals}} steals</span>
-                    <span v-if="player.blocks > 0">/ {{player.blocks}} blocks</span>
-                    in {{player.minutes}}mins.
-                    Shooting at {{player.field_goal_percentage}}%
-                    <span v-if="player.three_point_percentage > 0">({{player.three_point_percentage}}% from 3)</span>.
-                    <br/>
-                </div>
+              <div v-for="player in game.aussies" :key="player.id">
+                  <br/>
+                  {{player.name}}: {{player.points}} points
+                  <span v-if="player.assists > 0">/ {{player.assists}} assists</span>
+                  <span v-if="player.turnovers > 0">/ {{player.turnovers}} turnovers</span>
+                  <span v-if="player.steals > 0">/ {{player.steals}} steals</span>
+                  <span v-if="player.blocks > 0">/ {{player.blocks}} blocks</span>
+                  in {{player.minutes}}mins.
+                  Shooting at {{player.field_goal_percentage}}%
+                  <span v-if="player.three_point_percentage > 0">({{player.three_point_percentage}}% from 3)</span>.
+                  <br/>
+              </div>
             </span>
         </div>
       </div>
@@ -85,12 +83,13 @@ export default {
 			console.log('refresh')
 			store.findAll(this, 'games')
 		},
-		toggleAussies: function(game) {
-			console.log('toggleAussies',game)
-			console.log('toggleAussies2',game.showOzDetail)
-			if (!game.showOzDetail) {
-				game.showOzDetail = false
-			}
+		toggleAussies: function(gameId) {
+			console.log('toggleAussies',gameId)
+
+            let game = this.games.filter(function(g){
+              return g.id === gameId;
+            })[0];
+
 			game.showOzDetail = !game.showOzDetail
 		}
 	},
