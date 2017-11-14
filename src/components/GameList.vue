@@ -82,9 +82,18 @@ export default {
 			games: []
 		}
 	},
+	methods: {
+		refresh: function() {
+			console.log('refresh')
+			store.findAll(this, 'games')
+		}
+	},
 	created () {
-		store.init()
-		store.findAll(this, 'games')
+		let self=this;
+		store.init(function () {
+			console.log('init done')
+			self.refresh()
+		})
 	},
 	computed: {
 		description: function() {
