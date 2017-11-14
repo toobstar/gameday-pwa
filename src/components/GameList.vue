@@ -5,11 +5,20 @@
 
       <div class="eve"  v-for="event in games" :key="event.id">
         <div class="title">
-          <span>{{event.home_team_id}}</span>
-          <img src="../assets/logos/ATL.gif" alt="" style="max-height: 40px"/>
+          <span>
+			  {{event.home_team.id}}
+			  {{event.home_team.abbreviation}}
+			  {{event.home_team.full_name}}
+		  </span>
+		<!--<img :src="'./assets/logos/' + event.home_team.abbreviation + '.gif'" alt="" style="max-height: 40px">-->
+		<img :src="'/static/img/logos/' + event.home_team.abbreviation + '.gif'" alt="" style="max-height: 40px">
           &#64; <br/>
-          <span >{{event.away_team_id}}</span>
-          <img src="../assets/logos/CHI.gif" alt="" style="max-height: 40px"/>
+          <span >
+			  {{event.away_team.id}}
+			  {{event.away_team.abbreviation}}
+			  {{event.away_team.full_name}}
+		  </span>
+			<img :src="'/static/img/logos/' + event.away_team.abbreviation + '.gif'" alt="" style="max-height: 40px">
         </div>
         <div class="summary">
           Rating {{event.pointsBasedRating}}
