@@ -6,19 +6,15 @@
       <div class="eve"  v-for="event in games" :key="event.id">
         <div class="title">
           <span>
-			  {{event.home_team.id}}
-			  {{event.home_team.abbreviation}}
-			  {{event.home_team.full_name}}
-		  </span>
-		<!--<img :src="'./assets/logos/' + event.home_team.abbreviation + '.gif'" alt="" style="max-height: 40px">-->
-		<img :src="'/static/img/logos/' + event.home_team.abbreviation + '.gif'" alt="" style="max-height: 40px">
-          &#64; <br/>
-          <span >
-			  {{event.away_team.id}}
-			  {{event.away_team.abbreviation}}
 			  {{event.away_team.full_name}}
 		  </span>
-			<img :src="'/static/img/logos/' + event.away_team.abbreviation + '.gif'" alt="" style="max-height: 40px">
+		<!--<img :src="'./assets/logos/' + event.home_team.abbreviation + '.gif'" alt="" style="max-height: 40px">-->
+		<img :src="'/static/img/logos/' + event.away_team.abbreviation + '.gif'" alt="" style="max-height: 40px">
+          &#64; <br/>
+          <span >
+			  {{event.home_team.full_name}}
+		  </span>
+			<img :src="'/static/img/logos/' + event.home_team.abbreviation + '.gif'" alt="" style="max-height: 40px">
         </div>
         <div class="summary">
           Rating {{event.pointsBasedRating}}
@@ -53,20 +49,20 @@
         <!--</div>-->
       </div>
 
-    <ul>
-			<li v-for="game in games" :key="game.id">
-				<p>
-					<h5>{{ game.id }}</h5>
-					pointsTotalDiff {{ game.pointsTotalDiff }}
-					pointsFinalDiff {{ game.pointsFinalDiff }}
-					leadChanges {{ game.leadChanges }}
-					pointsBasedScore {{ game.pointsBasedScore }}
-					pointsBasedRating {{ game.pointsBasedRating }}
-					aussies {{ game.aussies }}
-					finalScore {{ game.finalScore }}
-				</p>
-			</li>
-		</ul>
+    <!--<ul>-->
+			<!--<li v-for="game in games" :key="game.id">-->
+				<!--<p>-->
+					<!--<h5>{{ game.id }}</h5>-->
+					<!--pointsTotalDiff {{ game.pointsTotalDiff }}-->
+					<!--pointsFinalDiff {{ game.pointsFinalDiff }}-->
+					<!--leadChanges {{ game.leadChanges }}-->
+					<!--pointsBasedScore {{ game.pointsBasedScore }}-->
+					<!--pointsBasedRating {{ game.pointsBasedRating }}-->
+					<!--aussies {{ game.aussies }}-->
+					<!--finalScore {{ game.finalScore }}-->
+				<!--</p>-->
+			<!--</li>-->
+		<!--</ul>-->
 	</div>
 </template>
 
@@ -97,7 +93,7 @@ export default {
 	},
 	computed: {
 		description: function() {
-			return "There are " + (this.games ? this.games.length : 'x') + " completed games this season";
+			return (this.games && this.games.length > 0 ? "There are " + this.games.length  + " completed games this season" : 'Loading game data');
 		}
 	}
 }
