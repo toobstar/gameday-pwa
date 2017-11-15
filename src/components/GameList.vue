@@ -3,7 +3,27 @@
 		<page-title title="Games" :subtitle="description"></page-title>
 
 
-      <div class="eve"  v-for="game in games" :key="game.id">
+    <div class="row">
+      <div style="margin-bottom: 10px;">
+        <select style="margin:22px 9px 20px;">
+          <option value=""> Team </option>
+        </select>
+        <select style="margin:22px 9px 20px;" >
+          <option value=""> Rating </option>
+        </select>
+        <span @click="onlyWithOz = true" class="textButton" v-if="onlyWithOz == false"><img src="../assets/aus.png" title="Show games with Australians" alt="Show games with Australians"/> With Australians</span>
+        <span @click="onlyWithOz = false" class="textButton" v-if="onlyWithOz == true"><img src="../assets/aus.png" title="Show games with Australians" alt="Show games with Australians"/> All</span>
+        <span @click="showBest()" class="textButton" ng-show="showingBest == false">Best by day</span>
+        <span @click="showBestEver()" class="textButton" ng-show="showingBest == false">Best so far</span>
+        <span @click="showAll(true)" class="textButton">More Games</span>
+        <!--<select ng-model="currentChatter" style="margin-left:9px" >-->
+        <!--<option value="500"> Chatter </option>-->
+        <!--<option value="1"> Lots </option>-->
+        <!--</select>-->
+      </div>
+    </div>
+
+      <div class="eve"  v-for="game in games" :key="game.id" v-if="onlyWithOz == false || game.aussies">
         <div class="title">
           <span>
 			  {{game.away_team.full_name}}
@@ -75,7 +95,8 @@ export default {
 	components: { PageTitle },
 	data() {
 		return {
-			games: []
+			games: [],
+      onlyWithOz: false
 		}
 	},
 	methods: {
