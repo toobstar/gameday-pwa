@@ -5,11 +5,15 @@
 
     <div class="row">
       <div style="margin-bottom: 10px;">
-        <select style="margin:22px 9px 20px;">
+        <select style="margin:22px 9px 20px;" v-model="teamSelected">
           <option value=""> Team </option>
+          <option v-bind:value="team" v-for="team in teams">{{team}}</option>
         </select>
-        <select style="margin:22px 9px 20px;" >
+        <select style="margin:22px 9px 20px;" v-model="ratingSelected">
           <option value=""> Rating </option>
+          <option value="A"> A </option>
+          <option value="B"> B </option>
+          <option value="C"> C </option>
         </select>
 
         <span @click="onlyWithOz = !onlyWithOz" class="textButton"><img src="../assets/aus.png" title="Show games with Australians"/>
@@ -22,7 +26,7 @@
       </div>
     </div>
 
-      <div class="eve"  v-for="(game, gIdx) in games" :key="game.id" v-if="(gIdx < showCount) && (onlyWithOz == false || game.aussies)">
+      <div class="eve"  v-for="(game, gIdx) in games" :key="game.id" v-if="(teamSelected =='' || game.home_team.full_name == teamSelected || game.away_team.full_name == teamSelected) && (ratingSelected =='' || game.pointsBasedRating == ratingSelected) && (gIdx < showCount) && (onlyWithOz == false || game.aussies)">
         <div class="title">
           <span>
 			  {{game.away_team.full_name}}
@@ -48,7 +52,7 @@
           {{game.date}}
         </div>
         <div class="note" v-if="game.aussies">
-          <span v-on:click="game.showOzDetail = !game.showOzDetail">
+          <span @click="game.showOzDetail = !game.showOzDetail">
               <img src="../assets/aus.png" title="Show Aussie player details" alt="Show Aussie player details"/>
           </span>
           <span style="padding:0 10px 0 10px;" v-if="game.showOzDetail">
@@ -81,14 +85,17 @@ export default {
 	data() {
 		return {
 			games: [],
-      onlyWithOz: false,
-      showCount: 10
+			teams: [],
+			onlyWithOz: false,
+			showCount: 10,
+			ratingSelected : '',
+			teamSelected : ''
 		}
 	},
 	methods: {
 		refresh: function() {
 			console.log('refresh')
-			store.findAll(this, 'games')
+			store.findAll(this)
 		}
 	},
 	created () {
