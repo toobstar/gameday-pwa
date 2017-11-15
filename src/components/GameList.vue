@@ -19,9 +19,9 @@
         <div class="summary">
           Rating {{game.pointsBasedRating}}
         </div>
-        <div class="note" style="float: right">
-          <span>Game Score</span>
-          <span>
+        <div class="note" style="float: right" @click="game.showScore = !game.showScore">
+          <span title="Show randomly sorted score">Game Score</span>
+          <span v-if="game.showScore">
               {{game.finalScore}}
           </span>
         </div>
@@ -29,7 +29,7 @@
           {{game.date}}
         </div>
         <div class="note" v-if="game.aussies">
-          <span v-on:click="toggleAussies(game.id)">
+          <span v-on:click="game.showOzDetail = !game.showOzDetail">
               <img src="../assets/aus.png" title="Show Aussie player details" alt="Show Aussie player details"/>
           </span>
           <span style="padding:0 10px 0 10px;" v-if="game.showOzDetail">
@@ -82,15 +82,6 @@ export default {
 		refresh: function() {
 			console.log('refresh')
 			store.findAll(this, 'games')
-		},
-		toggleAussies: function(gameId) {
-			console.log('toggleAussies',gameId)
-
-            let game = this.games.filter(function(g){
-              return g.id === gameId;
-            })[0];
-
-			game.showOzDetail = !game.showOzDetail
 		}
 	},
 	created () {

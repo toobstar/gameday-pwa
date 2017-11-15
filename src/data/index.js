@@ -39,6 +39,7 @@ store.findAll = (obj, prop) => {
 
     gameArray.forEach(function(game) {
       game.showOzDetail = false
+      game.showScore = false
       game.date = moment(game.event_start_date_time).format("MMM Do")
       if (!game.aussies || game.aussies.length == 0) {
         game.aussies = undefined
