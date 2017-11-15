@@ -11,19 +11,18 @@
         <select style="margin:22px 9px 20px;" >
           <option value=""> Rating </option>
         </select>
-        <span @click="onlyWithOz = true" class="textButton" v-if="onlyWithOz == false"><img src="../assets/aus.png" title="Show games with Australians" alt="Show games with Australians"/> With Australians</span>
-        <span @click="onlyWithOz = false" class="textButton" v-if="onlyWithOz == true"><img src="../assets/aus.png" title="Show games with Australians" alt="Show games with Australians"/> All</span>
-        <span @click="showBest()" class="textButton" ng-show="showingBest == false">Best by day</span>
-        <span @click="showBestEver()" class="textButton" ng-show="showingBest == false">Best so far</span>
-        <span @click="showAll(true)" class="textButton">More Games</span>
-        <!--<select ng-model="currentChatter" style="margin-left:9px" >-->
-        <!--<option value="500"> Chatter </option>-->
-        <!--<option value="1"> Lots </option>-->
-        <!--</select>-->
+
+        <span @click="onlyWithOz = !onlyWithOz" class="textButton"><img src="../assets/aus.png" title="Show games with Australians"/>
+          <span v-if="!onlyWithOz">With Australians</span>
+          <span v-if="onlyWithOz">All</span>
+        </span>
+        <!--<span @click="showBestBy = !showBestBy" class="textButton" ng-show="showingBest == false">Best by day</span>-->
+        <!--<span @click="showBestEver()" class="textButton" ng-show="showingBest == false">Best so far</span>-->
+        <span @click="showCount+=5" class="textButton">More Games</span>
       </div>
     </div>
 
-      <div class="eve"  v-for="game in games" :key="game.id" v-if="onlyWithOz == false || game.aussies">
+      <div class="eve"  v-for="(game, gIdx) in games" :key="game.id" v-if="(gIdx < showCount) && (onlyWithOz == false || game.aussies)">
         <div class="title">
           <span>
 			  {{game.away_team.full_name}}
@@ -69,20 +68,6 @@
         </div>
       </div>
 
-    <!--<ul>-->
-			<!--<li v-for="game in games" :key="game.id">-->
-				<!--<p>-->
-					<!--<h5>{{ game.id }}</h5>-->
-					<!--pointsTotalDiff {{ game.pointsTotalDiff }}-->
-					<!--pointsFinalDiff {{ game.pointsFinalDiff }}-->
-					<!--leadChanges {{ game.leadChanges }}-->
-					<!--pointsBasedScore {{ game.pointsBasedScore }}-->
-					<!--pointsBasedRating {{ game.pointsBasedRating }}-->
-					<!--aussies {{ game.aussies }}-->
-					<!--finalScore {{ game.finalScore }}-->
-				<!--</p>-->
-			<!--</li>-->
-		<!--</ul>-->
 	</div>
 </template>
 
@@ -96,7 +81,8 @@ export default {
 	data() {
 		return {
 			games: [],
-      onlyWithOz: false
+      onlyWithOz: false,
+      showCount: 10
 		}
 	},
 	methods: {
