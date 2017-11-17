@@ -10,7 +10,7 @@ PouchDB.debug.disable()
 
 store.init = (callback) => {
   db.replicate.from(remotedb, {live: false}).on('change', function (change) {
-    //console.log('change', change)
+    console.log('change', change)
     callback()
   }).on('error', function (err) {
     console.log('err-replicate', err)
