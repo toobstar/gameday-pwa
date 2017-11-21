@@ -2,6 +2,9 @@
 	<div class="gameList">
 		<page-title title="Games" :subtitle="description"></page-title>
 
+    <div v-if="updateCount > 0">
+      {{updateCount}} games updated
+    </div>
 
     <div class="row">
       <div style="margin-bottom: 10px;">
@@ -88,21 +91,30 @@ export default {
 			teams: [],
 			onlyWithOz: false,
 			showCount: 10,
+			updateCount: 0,
 			ratingSelected : '',
 			teamSelected : ''
 		}
 	},
 	methods: {
-		refresh: function() {
+		refresh: function(change) {
 			console.log('refresh')
 			store.findAll(this)
+
+      if (change && change.docs) {
+			  this.updateCount = change.docs.length;
+			  self = this;
+			  setTimeout(function() {
+          self.updateCount = 0;
+        }, 5000);
+      }
 		}
 	},
 	created () {
 		let self=this;
-		store.init(function () {
-			console.log('init done')
-			self.refresh()
+		store.init(function (change) {
+			console.log('init done', change)
+			self.refresh(change)
 		})
 	},
 	computed: {
