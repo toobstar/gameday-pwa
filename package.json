@@ -13,6 +13,7 @@
     "lodash": "^4.2.1",
     "moment": "^2.19.2",
     "pouchdb": "^5.2.1",
+    "velocity-animate": "^1.5.0",
     "vue": "^2.5.3",
     "vue-router": "^3.0.1"
   },
