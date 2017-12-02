@@ -2,50 +2,52 @@
   <div class="game" v-on:click="emitSize">
     <div class="gameContent">
 
-        <div class="title" v-on:click="toggleStats(ALL)">
-          <div class="team">
-            <div class="name">{{game.away_team.full_name}}</div>
-            <img :src="'/static/img/logos/' + game.away_team.abbreviation + '.gif'" alt=""/>
-          </div>
-          <div class="date">
-            {{game.date}}
-            <div class="at">&#64;</div>
-          </div>
-          <div class="team">
-            <div class="name">{{game.home_team.full_name}}</div>
-            <img :src="'/static/img/logos/' + game.home_team.abbreviation + '.gif'" alt=""/>
-          </div>
+      <div class="title" v-on:click="toggleStats(ALL)">
+        <div class="team">
+          <div class="name">{{game.away_team.full_name}}</div>
+          <img :src="'/static/img/logos/' + game.away_team.abbreviation + '.gif'" alt=""/>
         </div>
+        <div class="date">
+          {{game.date}}
+          <div class="at">&#64;</div>
+        </div>
+        <div class="team">
+          <div class="name">{{game.home_team.full_name}}</div>
+          <img :src="'/static/img/logos/' + game.home_team.abbreviation + '.gif'" alt=""/>
+        </div>
+      </div>
 
-        <div class="infos">
+      <div class="controls">
+        <div>
+          <icon name="icon-rating" :clazz="game.pointsBasedRating"></icon> {{game.pointsBasedRating}} Rating
+        </div>
+        <div v-on:click="toggleStats(OZ)">
+          <icon name="icon-australia" :clazz="game.aussies ? 'blue' : ''" ></icon> {{hasAussies}}
+        </div>
+        <div v-on:click="toggleStats(SCORE)">
+          <icon name="icon-results" clazz="results" ></icon> Results
+        </div>
+      </div>
 
-          <div>
-            <icon name="icon-rating" :clazz="game.pointsBasedRating"></icon>
-          </div>
-          <div v-on:click="toggleStats(OZ)">
-            <icon name="icon-australia" :clazz="game.aussies ? 'blue' : ''" ></icon>
-          </div>
-          <div v-on:click="toggleStats(SCORE)">
-            <icon name="icon-results" clazz="results" ></icon>
-          </div>
+      <div class="info">
 
-            <div v-if="stats == OZ || stats == ALL">
-              <div v-for="player in game.aussies" :key="player.id">
-                {{player.name}}: {{player.points}} points
-                <span v-if="player.assists > 0">/ {{player.assists}} assists</span>
-                <span v-if="player.turnovers > 0">/ {{player.turnovers}} turnovers</span>
-                <span v-if="player.steals > 0">/ {{player.steals}} steals</span>
-                <span v-if="player.blocks > 0">/ {{player.blocks}} blocks</span>
-                in {{player.minutes}}mins.
-                Shooting at {{player.field_goal_percentage}}%
-                <span v-if="player.three_point_percentage > 0">({{player.three_point_percentage}}% from 3)</span>.
-              </div>
+          <div v-if="game.aussies && (stats == OZ || stats == ALL)">
+            <div v-for="player in game.aussies" :key="player.id">
+              {{player.name}}: {{player.points}} points
+              <span v-if="player.assists > 0">/ {{player.assists}} assists</span>
+              <span v-if="player.turnovers > 0">/ {{player.turnovers}} turnovers</span>
+              <span v-if="player.steals > 0">/ {{player.steals}} steals</span>
+              <span v-if="player.blocks > 0">/ {{player.blocks}} blocks</span>
+              in {{player.minutes}}mins.
+              Shooting at {{player.field_goal_percentage}}%
+              <span v-if="player.three_point_percentage > 0">({{player.three_point_percentage}}% from 3)</span>.
             </div>
-
-          <div class="score" v-on:click="toggleStats(SCORE)">
-            <div v-if="stats == SCORE || stats == ALL">{{game.finalScore}}</div>
           </div>
+
+        <div class="score" v-if="stats == SCORE || stats == ALL">
+          {{game.finalScore}}
         </div>
+      </div>
 
     </div>
     <div class="gameSpacing"></div>
@@ -86,9 +88,9 @@ export default {
     }
 	},
 	computed: {
-		description: function() {
-			return 'a';
-		}
+    hasAussies: function(){
+      return (this.game.aussies ? this.game.aussies.length :'No')+' aussie'+(this.game.aussies ? this.game.aussies.length != 1 ? 's':'':'');
+    }
 	}
 }
 </script>
@@ -96,15 +98,16 @@ export default {
   .game{ position: relative;}
   .gameContent{
     background: rgba(255,255,255,.75);
-    border-radius: 3px;
+    border-radius: 5px;
+    cursor: pointer;
   }
   .gameSpacing{padding-bottom: 3px;}
 
-  .title{
+  .title,.controls{
     position: relative;
     font-size: 0;
   }
-  .title>div{font-size: 15px;}
+  .title>div,.controls>div{font-size: 15px;}
   .title .team {
     position: relative;
     display: inline-block;
@@ -151,11 +154,34 @@ export default {
     text-shadow: 1px 1px 0 #fff;
   }
 
+  .controls{
+    border-top: 1px solid rgba(0,0,0,.1);
+    z-index: 5;
+  }
+  .controls div+div{border-left: 1px solid rgba(0,0,0,.1);}
+  .controls>div{
+    display: inline-block;
+    width: calc(100% / 3);
+    padding: 5px;
+    text-align: center;
+  }
+  .controls>div:hover{background: rgba(0,0,0,.05);}
+
   .game svg.icon{fill:#999;}
   svg.icon.A{fill:#090;}
   svg.icon.B{fill:#990;}
   svg.icon.C{fill:#900;}
   svg.icon.blue{fill:#06a;}
-  svg.icon.results:hover{fill:#06a;}
+  div:hover > svg.icon.results{fill:#06a;}
+
+  .info{
+    color: #eee;
+    background: rgba(0,0,0,.8);
+    border-radius: 0 0 5px 5px;
+  }
+  .info > div {
+    padding: 10px;
+    text-align: center;
+  }
 
 </style>

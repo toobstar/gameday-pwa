@@ -31,7 +31,8 @@
     </div>
 
     <gamesList :listData="filteredGames"></gamesList>
-    <span @click="showCount+=5" class="textButton">More Games</span>
+
+    <div @click="showCount+=5" class="btn">More Games</div>
 
   </div>
 </template>
@@ -88,8 +89,14 @@ export default {
 	},
 }
 </script>
-<style scoped>
-
+<style>
+  .btn{
+    display: inline-block;
+    padding: 10px;
+    background: rgba(255,255,255,.75);
+    border-radius: 5px;
+    cursor: pointer;
+  }
 </style>
 
 
