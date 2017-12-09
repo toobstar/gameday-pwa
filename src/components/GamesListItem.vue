@@ -2,7 +2,7 @@
   <div class="game" v-on:click="emitSize">
     <div class="gameContent">
 
-      <div class="title" v-on:click="toggleStats(ALL)">
+      <div class="title" >
         <div class="team">
           <div class="name">{{game.away_team.full_name}}</div>
           <img :src="'/static/img/logos/' + game.away_team.abbreviation + '.gif'" alt=""/>
@@ -39,8 +39,8 @@
               <span v-if="player.steals > 0">/ {{player.steals}} steals</span>
               <span v-if="player.blocks > 0">/ {{player.blocks}} blocks</span>
               in {{player.minutes}}mins.
-              Shooting at {{player.field_goal_percentage}}%
-              <span v-if="player.three_point_percentage > 0">({{player.three_point_percentage}}% from 3)</span>.
+              Shooting at {{player.field_goal_percentage*100}}%
+              <span v-if="player.three_point_percentage > 0">({{player.three_point_percentage*100}}% from 3)</span>.
             </div>
           </div>
 
@@ -80,17 +80,18 @@ export default {
     }
   },
 	methods: {
-    emitSize(){
-      this.$emit('sizeChanged');
-    },
-    toggleStats(s){
-      this.stats = s !== this.stats ? s : this.NONE;
-    }
+      emitSize(){
+        this.$emit('sizeChanged');
+      },
+      toggleStats(s){
+        this.stats = s !== this.stats ? s : this.NONE;
+        console.log('toggleStats', s, this.stats, 'x')
+      }
 	},
 	computed: {
-    hasAussies: function(){
-      return (this.game.aussies ? this.game.aussies.length :'No')+' aussie'+(this.game.aussies ? this.game.aussies.length != 1 ? 's':'':'');
-    }
+      hasAussies: function(){
+        return (this.game.aussies ? this.game.aussies.length :'No')+' aussie'+(this.game.aussies ? this.game.aussies.length != 1 ? 's':'':'');
+      }
 	}
 }
 </script>
