@@ -34,7 +34,7 @@
   },
   data: function(){
     return {
-      sequenceSpeed: 200,
+      sequenceSpeed: 2000,
       sequenceDelay: 10,
     }
   },
