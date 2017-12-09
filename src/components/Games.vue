@@ -1,6 +1,10 @@
 <template>
   <div>
 
+      <header>
+          <h1>Best game to watch</h1>
+      </header>
+
     <div class="stats">
 
       {{description}}

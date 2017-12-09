@@ -1,8 +1,5 @@
 <template>
   <div>
-    <header>
-      <h1>Best game to watch</h1>
-    </header>
     <main>
       <router-view></router-view>
     </main>
@@ -77,7 +74,11 @@ export default {
     -moz-osx-font-smoothing: grayscale;
   }
   header {
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
     margin: 0;
     padding: 30px;
     background-color: rgba(0,0,0,.25);
@@ -93,5 +94,14 @@ export default {
     max-width: 1000px;
     margin: 0 auto;
     padding: 10px;
+  }
+  .stats {
+    margin-top: 20px;
+  }
+  .stats, .filters {
+    margin-left: 350px;
+  }
+  .filters {
+    margin-bottom: 50px;
   }
 </style>

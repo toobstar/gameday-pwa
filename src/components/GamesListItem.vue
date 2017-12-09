@@ -96,7 +96,7 @@ export default {
 }
 </script>
 <style scoped>
-  .game{ position: relative;}
+  .game{ position: relative; width: 450px;margin:15px 20px;display: inline-block}
   .gameContent{
     background: rgba(255,255,255,.75);
     border-radius: 5px;
