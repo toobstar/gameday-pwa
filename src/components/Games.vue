@@ -79,7 +79,8 @@ export default {
           let matchTeam = that.teamSelected == '' || game.home_team.full_name == that.teamSelected || game.away_team.full_name == that.teamSelected;
           let matchRating = that.ratingSelected == '' || game.pointsBasedRating == that.ratingSelected;
           let matchOz = that.onlyWithOz == false || game.aussies;
-          let matchCount = i < that.showCount;
+          // if filter selected ignore count
+          let matchCount = (i < that.showCount) || that.teamSelected != '' || that.ratingSelected != '' || that.onlyWithOz;
           return matchTeam && matchRating && matchOz && matchCount;
         })
     },
