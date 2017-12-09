@@ -24,8 +24,8 @@
       </select>
 
       <span @click="onlyWithOz = !onlyWithOz" class="textButton"><img src="../assets/aus.png" title="Show games with Australians"/>
-        <span v-if="!onlyWithOz">With Australians</span>
-        <span v-if="onlyWithOz">All</span>
+        <span v-if="!onlyWithOz">All</span>
+        <span v-if="onlyWithOz">With Australians</span>
       </span>
 
     </div>
