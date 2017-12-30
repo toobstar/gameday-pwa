@@ -29,7 +29,7 @@
       </div>
     </div>
 
-      <div class="eve"  v-for="(game, gIdx) in games" :key="game.id" v-if="(teamSelected =='' || game.home_team.full_name == teamSelected || game.away_team.full_name == teamSelected) && (ratingSelected =='' || game.pointsBasedRating == ratingSelected) && (gIdx < showCount) && (onlyWithOz == false || game.aussies)">
+      <div class="eve"  v-for="(game, gIdx) in games" :key="game.id" v-if="(teamSelected =='' || game.home_team.full_name == teamSelected || game.away_team.full_name == teamSelected) && (ratingSelected =='' || game.pointsBasedRating == ratingSelected) && ((gIdx < showCount) || teamSelected != '' || ratingSelected != '' || onlyWithOz) && (onlyWithOz == false || game.aussies)">
         <div class="title">
           <span>
 			  {{game.away_team.full_name}}
